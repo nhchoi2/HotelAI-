@@ -45,7 +45,7 @@ if st.button("예측하기"):
         st.success(f"예상 숙박 가격: {int(prediction)} 원")
 
         # 데이터 로드 (CSV 파일에서 로드하는 예시)
-        df_price = pd.read_csv("data/price.csv")
+        df_price = pd.read_csv("data/raw/price.csv")
 
         # 첫 번째 조건: "Hotel", "강원도 강릉시", 성수기(1)
         filtered_data_1 = df_price[(df_price['숙박유형명'] == 'Hotel') & 
