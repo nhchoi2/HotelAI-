@@ -16,7 +16,6 @@ except Exception as e:
 tab1, tab2 = st.tabs(["예측", "지도 시각화"])
 
 with tab1:
-    st.header("예측 페이지")
     # 예측 관련 UI 요소 배치
 
 
@@ -150,7 +149,7 @@ with tab1:
 
 
 with tab2:
-    st.header("지도 시각화 페이지")
+    st.header("내 주변 정보")
     from map_embed import embed_map
     # map_embed.py의 embed_map 함수를 호출하여 저장된 HTML 지도를 임베드
     embed_map(html_file="../notebooks/cluster_map_with_image.html", height=600)
