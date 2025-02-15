@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 import numpy as np
 import plotly.express as px
-import matplotlib as plt
+
 
 
 # 1. 저장된 머신러닝 모델 및 인코더 로드
