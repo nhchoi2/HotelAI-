@@ -17,11 +17,11 @@ st.title("🏨 지역별 예상 숙박 가격 예측")
 # 사용자 입력 받기
 regions = ["강원도 강릉시", "부산 해운대구", "제주 제주시"]
 types = ["Hotel", "Pension", "Motel"]
-seasons = ["성수기", "비수기"]
+seasons = ["1", "0"]
 
 selected_region = st.selectbox("지역을 선택하세요", regions)
 selected_type = st.selectbox("숙박 유형을 선택하세요", types)
-selected_season = st.selectbox("성수기 여부를 선택하세요", seasons)
+selected_season = st.selectbox("여행일자가 성수기에 해당하나요? 맞으면 1, 아니면 0을 선택해주세요", seasons)
 
 if st.button("예측하기"):
     try:
@@ -36,7 +36,7 @@ if st.button("예측하기"):
         X_transformed = encoder.transform(input_data[["지역명", "숙박유형명"]])
         
         # 최종 입력 데이터 결합: 인코딩된 결과와 성수기여부
-        final_input = np.hstack([X_transformed, input_data[["성수기여부"]].values])
+        final_input = np.hstack([X_transformed, selected_season.values])
         
         # 예측 수행
         prediction = model.predict(final_input)[0]
