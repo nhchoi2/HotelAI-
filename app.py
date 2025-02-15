@@ -95,7 +95,7 @@ if st.button("예측하기"):
         st.dataframe(result_df)
 
 
-        fig = px.bar(df_prediction, 
+        fig = px.bar(prediction, 
             x="지역", 
             y=["성수기 가격 예측", "비수기 가격 예측", "선택된 지역 가격"],
             title=f"📊 {selected_region} 지역별 성수기/비수기 평균 가격 및 예상 가격",
