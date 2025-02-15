@@ -95,37 +95,7 @@ if st.button("예측하기"):
         st.dataframe(result_df)
 
 
-        fig = px.bar(prediction, 
-            x="지역", 
-            y=["성수기 가격 예측", "비수기 가격 예측", "선택된 지역 가격"],
-            title=f"📊 {selected_region} 지역별 성수기/비수기 평균 가격 및 예상 가격",
-            barmode="group")  # 그룹형 막대 그래프 설정
-
-        # 그래프 간격을 조정하여 폭을 줄임
-        fig.update_layout(
-            bargap=0.15,  # 막대 간의 간격
-            bargroupgap=0.1,  # 그룹 간의 간격
-            autosize=True,  # 자동 크기 조정
-            xaxis_title="지역",  # x축 라벨
-            yaxis_title="가격(원)",  # y축 라벨
-            plot_bgcolor="rgba(240, 240, 240, 1)",  # 그래프 배경색 (연한 회색)
-            
-            # 축 격자선 및 테두리 설정
-            xaxis=dict(
-                showgrid=True,  # x축에 격자선 표시
-                zeroline=True,  # x축에서 0라인 표시
-                showline=True,  # x축에 테두리 선 표시
-                linecolor="black",  # x축 테두리 색상
-            ),
-            yaxis=dict(
-                showgrid=True,  # y축에 격자선 표시
-                zeroline=True,  # y축에서 0라인 표시
-                showline=True,  # y축에 테두리 선 표시
-                linecolor="black",  # y축 테두리 색상
-            )
-        )
-
-        st.plotly_chart(fig)
+        
         
     except Exception as e:
         st.error(f"예측 중 오류 발생: {e}")
