@@ -4,18 +4,83 @@ import joblib
 import numpy as np
 import plotly.express as px
 
+model = joblib.load("models/random_forest.pkl")    # Random Forest 모델 로드
+encoder = joblib.load("models/encoder.pkl")         # OneHotEncoder 객체 로드 (지역명, 숙박유형명 대상)
 
+st.title("🏨 AI 숙박가격 예측 서비스")
 
-# 1. 저장된 머신러닝 모델 및 인코더 로드
-try:
-    model = joblib.load("models/random_forest.pkl")    # Random Forest 모델 로드
-    encoder = joblib.load("models/encoder.pkl")         # OneHotEncoder 객체 로드 (지역명, 숙박유형명 대상)
-except Exception as e:
-    st.error(f"모델 또는 인코더 로드 중 오류 발생: {e}")
-
-tab1, tab2 = st.tabs(["예측", "지도 시각화"])
+tab1, tab2, tab3 = st.tabs(["앱 소개" , "예측", "내 주변 숙박&레져 정보"])
 
 with tab1:
+    st.header(" AI 기반 숙박 추천 & 지도 시각화 시스템 소개")
+    st.markdown("""
+    **AI-Trainer**는 사용자가 입력한 정보를 바탕으로 **머신러닝 모델을 활용하여 예상 숙박 가격을 예측**하고,  
+    **지도 기반 시각화**를 통해 숙박 및 레저 정보를 한눈에 볼 수 있도록 지원하는 서비스입니다.  
+    """)
+
+    st.subheader("1. 프로젝트 개요")
+    st.markdown("""
+    - **프로젝트명:** AI-Trainer (AI 기반 숙박 추천 & 지도 시각화)
+    - **목적:** 사용자의 숙박 유형, 지역, 성수기 여부 등을 입력하면 AI 모델이 예상 숙박 가격을 예측하고,  
+      지도에서 호텔 및 주변 레저 시설 정보를 시각적으로 제공하는 시스템입니다.
+    - **대상:** 여행객, 숙박 업계 관계자, 지역 관광 관련 종사자
+    """)
+
+    st.subheader("2. 데이터 출처")
+    st.markdown("""
+    - **숙박 및 레저 정보:** *야놀자 2024년 숙박 정보 및 레저 정보* → 정규화 후 데이터셋 적용  
+    - **금액 정보:** *야놀자 무료 버전 (500개 지역별 평균 금액)* → 유료 데이터 접근 불가로 인해 무료 데이터셋 활용
+    """)
+
+    st.subheader("3. 주요 기능")
+    st.markdown("""
+     **AI 기반 숙박 가격 예측**  
+    - 머신러닝(Random Forest) 모델을 활용하여 입력된 조건(지역, 숙박 유형, 성수기 여부)에 따라 **예상 숙박 가격을 제공**  
+    - 사용자가 다양한 시나리오를 테스트하여 합리적인 가격을 찾을 수 있도록 지원  
+
+     **지도 시각화 및 연관 정보 제공**  
+    - **Folium 기반 인터랙티브 지도**를 통해 **호텔, 레저 시설, 지역별 평균 숙박 가격**을 한눈에 확인  
+    - 숙소 주변의 **레저 시설 정보를 자동 연동**하여, 여행객이 쉽게 주변 시설을 탐색 가능  
+
+     **사용자 친화적인 UI**  
+    - **Streamlit을 활용한 직관적인 UI** 제공  
+    - 간단한 입력값 설정만으로 AI가 최적의 숙박 정보를 추천  
+    - **탭 방식의 네비게이션**으로 예측 결과와 지도 시각화를 쉽게 전환 가능  
+    """)
+
+    st.subheader("4. 시스템 구조")
+    st.markdown("""
+    **🛠 기술 스택 (Tech Stack)**  
+    - **프론트엔드:** Streamlit (웹 UI)  
+    - **백엔드:** Scikit-learn (Random Forest), Pandas, Joblib  
+    - **데이터 시각화:** Plotly, Folium  
+    - **데이터 저장:** CSV 기반 데이터 로드 (DB 미사용)  """)
+
+    st.subheader("5. 기대 효과")
+    st.markdown("""
+    **차별점 (Why Our Solution?)**
+    -  **AI 자동 가격 예측:** 단순 가격 비교가 아닌, 머신러닝 모델을 활용한 동적 예측  
+    -  **숙박 & 레저 시설 연동:** 사용자가 원하는 숙소 주변의 여행지 정보를 자동 추천  
+    -  **실시간 지도 기반 시각화:** 가격, 위치, 숙박 정보를 한눈에 비교 가능  
+
+    **기대 효과**
+    - 사용자 입장: 숙소 선택에 대한 신뢰성 증가 (예측된 가격과 실제 가격 비교 가능)  
+    - 사업자 입장: 경쟁사 가격 데이터 분석 및 최적화 가능  
+    - 관광 업계: 지역 내 숙박과 레저 활동을 연계하여 시너지 효과 창출  
+    """)
+
+    st.subheader("6. 데모 시연")
+    st.markdown("""
+    - **예측 결과 시연**
+      1. 지역, 숙박 유형, 성수기 여부 선택  
+      2. "예측하기" 버튼 클릭 → AI가 가격 예측  
+      3. "지도 시각화" 탭 이동 → 숙소 정보 + 주변 레저 시설 표시  
+    """)
+
+
+
+with tab2:
+    st.header("🏨 지역별 예상 숙박 가격 예측")
     # 예측 관련 UI 요소 배치
 
 
@@ -32,7 +97,7 @@ with tab1:
             '경기도 이천시', '경기도 파주시', '경기도 평택시']
 
     # 2. Streamlit UI 설정
-    st.title("🏨 지역별 예상 숙박 가격 예측")
+
 
     # 3. 사용자 입력 받기
     regions = city
@@ -148,8 +213,20 @@ with tab1:
             st.error(f"예측 중 오류 발생: {e}")
 
 
-with tab2:
-    st.header("내 주변 정보")
+with tab3:
+    st.markdown("""
+    ### 내 주변 숙박 & 레저 시설 찾기
+    - 현재 지도에서 **내 위치를 기준으로 숙박업소 및 레저 시설을 탐색**할 수 있습니다.
+    - 숙박 시설 마커를 클릭하면 **해당 숙소의 상세 정보 및 주변 레저 활동을 확인**할 수 있습니다.
+    - 지도 상의 클러스터를 활용하여 **지역별 숙박 및 레저 시설을 한눈에 파악**할 수 있습니다.
+    """)
     from map_embed import embed_map
     # map_embed.py의 embed_map 함수를 호출하여 저장된 HTML 지도를 임베드
     embed_map(html_file="../notebooks/cluster_map_with_image.html", height=600)
+
+    st.subheader("기능 안내")
+    st.markdown("""
+    - **숙박 정보 확인:** 호텔, 모텔, 펜션 등 숙박업소의 위치 및 정보를 지도에서 확인할 수 있습니다.
+    - **레저 시설 탐색:** 숙소 주변의 레저 활동(테마파크, 체험 시설 등)을 연동하여 표시합니다.
+    - **직관적인 인터페이스:** 클릭 한 번으로 숙소 및 주변 시설 정보를 빠르게 확인할 수 있습니다.
+    """)

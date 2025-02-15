@@ -8,6 +8,10 @@ import pandas as pd
 
 # 지도 초기화 (중심 좌표 [36.5, 127.5], zoom_start=10)
 m = folium.Map(location=[36.5, 127.5], zoom_start=10)
+hotel_df = pd.read_csv("data/raw/hotel_data.csv")
+leisure_df = pd.read_csv("data/raw/leisure_data.csv")
+price_df = pd.read_csv("data/raw/price.csv")
+
 
 # 호텔 데이터 클러스터 생성
 hotel_cluster = MarkerCluster(name='호텔 데이터').add_to(m)
