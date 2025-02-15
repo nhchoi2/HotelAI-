@@ -28,9 +28,7 @@ if st.button("예측하기"):
         # 입력 데이터를 DataFrame으로 생성
         input_data = pd.DataFrame([[selected_region, selected_type, selected_season]],
                                   columns=["지역명", "숙박유형명", "성수기여부"])
-        
-        # 성수기여부 숫자로 변환
-        input_data["성수기여부"] = input_data["여행일자가 성수기에 해당하나요? 맞으면 1, 아니면 0을 선택해주세요"]
+    
         
         # OneHotEncoder 적용: '지역명'과 '숙박유형명'
         X_transformed = encoder.transform(input_data[["지역명", "숙박유형명"]])
