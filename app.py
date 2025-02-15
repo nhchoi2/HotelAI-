@@ -43,7 +43,52 @@ if st.button("예측하기"):
         
         # 예측 결과 출력
         st.success(f"예상 숙박 가격: {int(prediction)} 원")
-    
+
+        # 데이터 로드 (CSV 파일에서 로드하는 예시)
+        df_price = pd.read_csv("data/price.csv")
+
+        # 첫 번째 조건: "Hotel", "강원도 강릉시", 성수기(1)
+        filtered_data_1 = df_price[(df_price['숙박유형명'] == 'Hotel') & 
+                                (df_price['지역명'] == '강원도 강릉시') & 
+                                (df_price['성수기여부'] == 1)]
+
+        # 두 번째 조건: "Hotel", "강원도 강릉시", 비수기(0)
+        filtered_data_2 = df_price[(df_price['숙박유형명'] == 'Hotel') & 
+                                (df_price['지역명'] == '강원도 강릉시') & 
+                                (df_price['성수기여부'] == 0)]
+
+        # 성수기 통계값 계산
+        stats_1 = {
+            "최소값": filtered_data_1['평균판매금액'].min() if not filtered_data_1.empty else "데이터 없음",
+            "최대값": filtered_data_1['평균판매금액'].max() if not filtered_data_1.empty else "데이터 없음",
+            "평균값": int(filtered_data_1['평균판매금액'].mean()) if not filtered_data_1.empty else "데이터 없음"
+        }
+
+        # 비수기 통계값 계산
+        stats_2 = {
+            "최소값": filtered_data_2['평균판매금액'].min() if not filtered_data_2.empty else "데이터 없음",
+            "최대값": filtered_data_2['평균판매금액'].max() if not filtered_data_2.empty else "데이터 없음",
+            "평균값": int(filtered_data_2['평균판매금액'].mean()) if not filtered_data_2.empty else "데이터 없음"
+        }
+
+        # 첫 번째 DataFrame 생성 (성수기)
+        df_1 = pd.DataFrame({
+            "단위(원)": ["성수기"],
+            "최저가": [stats_1["최소값"]],
+            "최고가": [stats_1["최대값"]],
+            "평균값": [stats_1["평균값"]]
+        })
+
+        # 두 번째 DataFrame 생성 (비수기)
+        df_2 = pd.DataFrame({
+            "단위(원)": ["비수기"],
+            "최저가": [stats_2["최소값"]],
+            "최고가": [stats_2["최대값"]],
+            "평균값": [stats_2["평균값"]]
+        })
+
+        # 두 DataFrame 합치기
+        result_df = pd.concat([df_1, df_2], ignore_index=True)
         # 간단한 시각화: 막대 그래프로 예측된 가격 표시
         df_vis = pd.DataFrame({"항목": ["예상 가격"], "가격": [int(prediction)]})
         fig = px.bar(df_vis, x="항목", y="가격", title="예상 가격")
