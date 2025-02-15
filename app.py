@@ -34,7 +34,7 @@ if st.button("예측하기"):
         X_transformed = encoder.transform(input_data[["지역명", "숙박유형명"]])
         
         # 최종 입력 데이터 결합: 인코딩된 결과와 성수기여부
-        final_input = np.hstack([X_transformed, selected_season.values])
+        final_input = np.hstack([X_transformed, selected_season])
         
         # 예측 수행
         prediction = model.predict(final_input)[0]
