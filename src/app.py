@@ -4,6 +4,7 @@ import joblib
 import numpy as np
 import plotly.express as px
 
+
 model = joblib.load("models/random_forest.pkl")    # Random Forest 모델 로드
 encoder = joblib.load("models/encoder.pkl")         # OneHotEncoder 객체 로드 (지역명, 숙박유형명 대상)
 
@@ -219,7 +220,9 @@ with tab3:
     """)
     from map_embed import embed_map
     # map_embed.py의 embed_map 함수를 호출하여 저장된 HTML 지도를 임베드
+
     embed_map(html_file="../notebooks/cluster_map_with_image.html", height=600)
+
 
     st.subheader("기능 안내")
     st.markdown("""
