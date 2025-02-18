@@ -144,14 +144,14 @@ with tab2:
             season_stats  = {
                 "최소값": filtered_data_1['평균판매금액'].min(),
                 "최대값": filtered_data_1['평균판매금액'].max(),
-                "평균값": int(filtered_data_1['평균판매금액'].mean())
+                "평균값": filtered_data_1['평균판매금액'].mean()
             }
 
             # 비수기 통계값 계산
             off_season_stats  = {
                 "최소값": filtered_data_2['평균판매금액'].min(),
                 "최대값": filtered_data_2['평균판매금액'].max(),
-                "평균값": int(filtered_data_2['평균판매금액'].mean())
+                "평균값": filtered_data_2['평균판매금액'].mean()
             }
 
             stats_df = pd.DataFrame({
