@@ -131,13 +131,13 @@ with tab2:
             df_price = pd.read_csv("data/raw/price.csv")
 
             # 첫 번째 조건: "Hotel", "강원도 강릉시", 성수기(1)
-            filtered_data_1 = df_price[(df_price['숙박유형명'] == 'Hotel') & 
-                                    (df_price['지역명'] == '강원도 강릉시') & 
+            filtered_data_1 = df_price[(df_price['숙박유형명'] == selected_type) & 
+                                    (df_price['지역명'] == selected_region) & 
                                     (df_price['성수기여부'] == 1)]
 
             # 두 번째 조건: "Hotel", "강원도 강릉시", 비수기(0)
-            filtered_data_2 = df_price[(df_price['숙박유형명'] == 'Hotel') & 
-                                    (df_price['지역명'] == '강원도 강릉시') & 
+            filtered_data_2 = df_price[(df_price['숙박유형명'] == selected_type) & 
+                                    (df_price['지역명'] == selected_region) & 
                                     (df_price['성수기여부'] == 0)]
 
             # 성수기 통계값 계산
